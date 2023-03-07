@@ -17,7 +17,7 @@ body{
   grid-template-rows: repeat(3, 100px);
 
 }
-.square {
+.cuadrado {
     margin: 0 auto;
     width: 100px;
     background-color: #ffffff;

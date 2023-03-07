@@ -1,18 +1,12 @@
-let board = ['', '', '', '', '', '', '', '', ''];
-let currentPlayer = 'X';
-let statusEl = document.getElementById('status');
-let squares = document.querySelectorAll('.square');
+let tablero = ['', '', '', '', '', '', '', '', ''];
+let jugadorActual = 'X';
+let estado = document.getElementById('estado');
+let cuadrados = document.querySelectorAll('.cuadrado');
 let resetButton = document.getElementById('reset');
 
-function resetGame() {
-  board = ['', '', '', '', '', '', '', '', ''];
-  currentPlayer = 'X';
-  statusEl.textContent = `Turno del jugador ${currentPlayer}`;
-  squares.forEach(square => square.textContent = '');
-}
 
 function checkWin() {
-  const winningCombinations = [
+  const combinaciones = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -23,41 +17,46 @@ function checkWin() {
     [2, 4, 6]
   ];
 
-  for (let i = 0; i < winningCombinations.length; i++) {
-    const [a, b, c] = winningCombinations[i];
-    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return board[a];
+  for (let i = 0; i < combinaciones.length; i++) {
+    const [a, b, c] = combinaciones[i];
+    if (tablero[a] && tablero[a] === tablero[b] && tablero[a] === tablero[c]) {
+      return tablero[a];
     }
   }
 
-  if (board.every(square => square)) {
-    return 'tie';
+  if (tablero.every(cuadrado => cuadrado)) {
+    return 'empatados';
   }
-
   return null;
 }
 
 function handleClick(event) {
-  const square = event.target;
-  const index = parseInt(square.id);
+  const cuadrado = event.target;
+  const index = parseInt(cuadrado.id);
 
-  if (board[index] || checkWin()) {
+  if (tablero[index] || checkWin()) {
     return;
   }
 
-  board[index] = currentPlayer;
-  square.textContent = currentPlayer;
+  tablero[index] = jugadorActual;
+  cuadrado.textContent = jugadorActual;
 
   const winner = checkWin();
   if (winner) {
-    statusEl.textContent = `Ganó el jugador ${winner}!`;
+    estado.textContent = `Ganó el jugador ${winner}!`;
   } else {
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    statusEl.textContent = `Turno del jugador ${currentPlayer}`;
+    jugadorActual = jugadorActual === 'X' ? 'O' : 'X';
+    estado.textContent = `Turno del jugador ${jugadorActual}`;
   }
 }
 
-squares.forEach(square => square.addEventListener('click', handleClick));
+function resetGame() {
+  tablero = ['', '', '', '', '', '', '', '', ''];
+  jugadorActual = 'X';
+  estado.textContent = `Turno del jugador ${jugadorActual}`;
+  cuadrados.forEach(cuadrados => cuadrados.textContent = '');
+}
+cuadrados.forEach(cuadrado => cuadrado.addEventListener('click', handleClick));
 resetButton.addEventListener('click', resetGame);
 
 resetGame();
